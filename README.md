@@ -47,7 +47,14 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
 ## Other potential limitations:
 1) The native camera app usually goes to postprocessing after a picture has been taken. With the PWA approach this is not the case as the image is captured to canvas then put into a `blob` type object so the post processing will no longer happen so quality/image filters may differ from what the native camera app shows. This is however the case with most native apps used.
 
-## Possible work arounds:
-1) For the limitation in sharing images(3-2) we could upload the images to a third party storage and share the link
-2) For the limitations of the Web Share API on iOS - we may be able to use deep links similar to [this](https://stackoverflow.com/questions/48026418/how-to-open-ios-share-menu-via-html)
-3) Because the Web Share API is not widely available in device browsers it may be useful to look at other ways to perform the sharing. One way would be to use [WebRTC](https://www.html5rocks.com/en/tutorials/webrtc/basics/). This would allow us to share P2P, and it would work for both video and pictures. **Currently being investigated**.
+## Findings and Conclusions:
+1) The Web Share API is not currently mature enough.
+    - not widely compatible with browsers 
+    - does not allow for sharing images. (only text content)
+    - markup option is not available when sharing via email (it would require a 3rd party email server to set the proper headers)
+
+2) WebRTC investigation showed that the protocol is a P2P protocol and it would require a 3rd party service to buffer the files, and is connection based so it is not very much in line with how a `serviceWorker` functions
+
+3) There is a way to share content via Deep Links to each of the apps mentioned. The caveats with this are that:
+  - The share menu is not the native one, it will be part of the web app
+  - The sharing options are hard coded in the site so people will not have the same menu as they would normally have in their share context natively (ie: some people may have Twitter as their goto for sharing instead of facebook)

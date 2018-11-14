@@ -49,12 +49,25 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
 
 ## Findings and Conclusions:
 1) The Web Share API is not currently mature enough.
-    - not widely compatible with browsers 
-    - does not allow for sharing images. (only text content)
+    - not widely compatible with browsers (Chrome, Safari Tech Preview)
+    - does not allow for sharing images (only text content)
+    
+    `eg:`
+    ```javascript
+    navigator.share({
+      title: document.title,
+      text: 'Hello from sharing',
+      url: '<url goes here>',
+    });
+    ```
     - markup option is not available when sharing via email (it would require a 3rd party email server to set the proper headers)
+    - could work only if images are uploaded to a 3rd party and the link is provided
 
-2) WebRTC investigation showed that the protocol is a P2P protocol and it would require a 3rd party service to buffer the files, and is connection based so it is not very much in line with how a `serviceWorker` functions
+2) WebRTC investigation showed that the protocol is a P2P protocol and it would require a 3rd party service to buffer the files, and is connection based so it is not very much in line with how a `serviceWorker` functions. It is not a viable solution for the task as it requires a connection oriented protocol for communication.
 
-3) There is a way to share content via Deep Links to each of the apps mentioned. The caveats with this are that:
-  - The share menu is not the native one, it will be part of the web app
-  - The sharing options are hard coded in the site so people will not have the same menu as they would normally have in their share context natively (ie: some people may have Twitter as their goto for sharing instead of facebook)
+3) There is a way to share content via Deep Links to each of the apps mentioned. The caveats with this are:
+  - the share menu is not the native one, it will be part of the web app
+  - the sharing options are hard coded in the site so people will not have the same menu as they would normally have in their share context natively (ie: some people may have Twitter as their goto for sharing instead of facebook)
+  - this allows for sending **links only**
+  - it has cross platform compatibility, better than the web share API so it can be a good fallback for lacking Web Share API support on iOS
+  - could work only if images are uploaded to a 3rd party and the link is provided

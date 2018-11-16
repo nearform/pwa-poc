@@ -9,6 +9,7 @@ let scanQRCode = document.querySelector('#qr-code-button')
 let output = document.querySelector('#output')
 let qrCodeBtn = document.querySelector('#qr-code-button')
 let retryBtn = document.querySelector('#retry-btn')
+let backdrop = document.querySelector('.backdrop')
 
 const dataURItoBlob = (dataURI) => {
   /* converts the picture to a blob in javascript */
@@ -61,14 +62,22 @@ const initializeMedia = (constraints) => {
     }
   }
 
-  navigator.mediaDevices.getUserMedia(constraints)
-    .then(stream  => {
-      videoPlayer.srcObject = stream
-      videoPlayer.style.display = 'block'
+  navigator.mediaDevices.enumerateDevices()
+    .then(devices => {
+      const videoDevices = devices.filter(device => device.kind === 'videoinput')
+      if (videoDevices.length === 2) flipCameraButton.style.display = 'inline'
+      else flipCameraButton.style.display = 'none'
     })
-    .catch(err => {
-      imagePickerArea.style.display = 'block'
-    })
+    .then(() =>
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream  => {
+          videoPlayer.srcObject = stream
+          videoPlayer.style.display = 'block'
+        })
+        .catch(err => {
+          imagePickerArea.style.display = 'block'
+        })
+    )
 }
 
 const showButtons = () => {
@@ -84,6 +93,8 @@ const hideButtons = () => {
   canvasElement.style.display = 'block'
   retryBtn.style.display = 'inline'
 }
+
+const hideBackdrop = event => backdrop.classList.remove('open')
 
 const freezeFrame = () => {
   let context = canvasElement.getContext('2d')
@@ -145,6 +156,7 @@ const getLocationHandler = event => {
 }
 
 const shareHandler = event => {
+  backdrop.classList.add('open')
   if (!('share' in navigator)) {
     return
   }
@@ -160,6 +172,7 @@ const retryHandler = event => {
   clearPicture()
 }
 
+backdrop.addEventListener('click', hideBackdrop)
 retryBtn.addEventListener('click', retryHandler)
 scanQRCode.addEventListener('click', scanQRCodeHandler)
 shareButton.addEventListener('click', shareHandler)

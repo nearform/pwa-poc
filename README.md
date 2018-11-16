@@ -28,6 +28,7 @@ npm start
 ```
 
 You will have an `HTTP` server running locally and over the `LAN` however for the page to work on the device fully it should be served over `HTTPS`.
+If it is not served over `HTTPS` it will not prompt to be installed unless using remote debugging from Chrome to the device, also it will not prompt to allow access to camera/geolocation if accessed via `HTTP` in `LAN`.
 
 ## For deploying:
 Any static hosting should work since they provide mechanisms for serving static content. The content will need to be served over `HTTPS` otherwise chrome will block it.
@@ -77,6 +78,7 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
     - this allows for sending **links only**
     - it has cross platform compatibility, better than the web share API so it can be a good fallback for lacking Web Share API support on iOS
     - could work only if images are uploaded to a 3rd party and the link is provided
+    - this is a good fallback for iOS not supporting the Web Share API
 
 ## Stage 2
 
@@ -89,7 +91,7 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
    - otherwise you need to tap the retry button to get back into picture taking mode and try again.
   
 2) Some improvements on this:
-   - the video feed continuously checks if a QR code is detected and prints out the decoding if it is
+   - the video feed continuously checks if a QR code is detected and prints out the decoding if it is(the implementation could be similar to [this](https://github.com/schmich/instascan/blob/master/src/scanner.js))
    - the video feed has a visual cue when a QR code is detected so that you can take the snapshot
 
 3) The implementation is very similar to the picture taking except in the QR code case the goal is retrieving the code in the QR image.
@@ -100,4 +102,19 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
 
 
 ## Stage 3
-## TBD
+### Other PWA Case studies:
+
+#### 1) Pinterest:
+Pinterest has a PWA and the way they do the accessing a deep link to the APP that will share the link. It doesn't work with binary content.
+
+`Eg:`
+```html
+<a href="fb-messenger://share/?link=https%3A%2F%2Fpin.it%2Fgmxscy27bvay4o&amp;app_id=274266067164"></a>
+```
+This shares the link specified to facebook messenger, we can use that as a fallback for devices where `Web Share API` is  not supported
+
+#### 2) FaceBook PWA:
+The FaceBook PWA uses an [`input`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) element to open the native Camera APP after which it uploads the file to FaceBook, but they own the servers so in our case it would be uploading to a 3rd party.
+
+### 3) Twitter PWA
+The Twitter PWA works similar to the FaceBook PWA in that it has an [`input`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) element that allows for opening the native camera and taking a picture then sharing it to twitter, again by uploading it to their servers.

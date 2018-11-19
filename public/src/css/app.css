@@ -6,10 +6,6 @@
   text-align: center;
 }
 
-.drawer-option {
-  padding: 16px;
-}
-
 .mdl-layout__header-row__flex {
   display: flex;
   align-items: center;
@@ -31,20 +27,4 @@
 
 .media__picture {
   margin-top: 2rem;
-}
-
-.backdrop {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  padding: 0.5rem 1rem;
-  z-index: 3;
-}
-
-.open {
-  display: block;
 }

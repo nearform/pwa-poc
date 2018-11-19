@@ -9,7 +9,6 @@ let scanQRCode = document.querySelector('#qr-code-button')
 let output = document.querySelector('#output')
 let qrCodeBtn = document.querySelector('#qr-code-button')
 let retryBtn = document.querySelector('#retry-btn')
-let backdrop = document.querySelector('.backdrop')
 
 const dataURItoBlob = (dataURI) => {
   /* converts the picture to a blob in javascript */
@@ -156,15 +155,16 @@ const getLocationHandler = event => {
 }
 
 const shareHandler = event => {
-  backdrop.classList.add('open')
   if (!('share' in navigator)) {
     return
   }
   navigator.share({
     title: document.title,
-    text: 'Hello from sharing',
+    text: 'Hello from the fancy Snapshot PWA',
     url: 'https://example.com',
-  });
+  })
+  .then(() => console.log('Successfully shared the content'))
+  .catch(err => console.log(`Failed to share because ${err.message}`))
 }
 
 const retryHandler = event => {
@@ -172,7 +172,6 @@ const retryHandler = event => {
   clearPicture()
 }
 
-backdrop.addEventListener('click', hideBackdrop)
 retryBtn.addEventListener('click', retryHandler)
 scanQRCode.addEventListener('click', scanQRCodeHandler)
 shareButton.addEventListener('click', shareHandler)

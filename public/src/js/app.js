@@ -93,8 +93,6 @@ const hideButtons = () => {
   retryBtn.style.display = 'inline'
 }
 
-const hideBackdrop = event => backdrop.classList.remove('open')
-
 const freezeFrame = () => {
   let context = canvasElement.getContext('2d')
   context.drawImage(videoPlayer, 0, 0, canvas.width, videoPlayer.videoHeight / (videoPlayer.videoWidth / canvas.width))

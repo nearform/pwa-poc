@@ -12,18 +12,17 @@ let retryBtn = document.querySelector('#retry-btn')
 
 const dataURItoBlob = (dataURI) => {
   /* converts the picture to a blob in javascript */
-  const byteString = atob(dataURI.split(',')[1]);
+  const byteString = window.atob(dataURI.split(',')[1])
   const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-  const ab = new ArrayBuffer(byteString.length);
-  let ia = new Uint8Array(ab);
+  const ab = new ArrayBuffer(byteString.length)
+  let ia = new Uint8Array(ab)
   for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
+    ia[i] = byteString.charCodeAt(i)
   }
-  const blob = new Blob([ab], {type: mimeString});
-  return blob;
+  const blob = new window.Blob([ab], { type: mimeString })
+  return blob
 }
 
-let picture // global for loading the picture into memory
 let front = false // bool value that specifies if the camera is facing front or back
 const defaultConstraints = { video: { facingMode: (front ? 'user' : 'environment') }, audio: false }
 // constraint object to specify default values for camera orientation
@@ -69,11 +68,12 @@ const initializeMedia = (constraints) => {
     })
     .then(() =>
       navigator.mediaDevices.getUserMedia(constraints)
-        .then(stream  => {
+        .then(stream => {
           videoPlayer.srcObject = stream
           videoPlayer.style.display = 'block'
         })
         .catch(err => {
+          console.error(err)
           imagePickerArea.style.display = 'block'
         })
     )
@@ -95,7 +95,7 @@ const hideButtons = () => {
 
 const freezeFrame = () => {
   let context = canvasElement.getContext('2d')
-  context.drawImage(videoPlayer, 0, 0, canvas.width, videoPlayer.videoHeight / (videoPlayer.videoWidth / canvas.width))
+  context.drawImage(videoPlayer, 0, 0, window.canvas.width, videoPlayer.videoHeight / (videoPlayer.videoWidth / window.canvas.width))
   videoPlayer.srcObject.getVideoTracks().forEach(track => {
     track.stop()
   })
@@ -103,24 +103,22 @@ const freezeFrame = () => {
 }
 
 const clearPicture = () => {
-  /* this clears the canvasElement and cleans up for returning to normal camera mode after
-   * having taken a picture */
-  picture = null
   const constraints = { video: { facingMode: (front ? 'user' : 'environment') } }
   init(constraints)
 }
 
 const snapshotHandler = event => {
   hideButtons()
-  _ = freezeFrame()
-  picture = dataURItoBlob(canvasElement.toDataURL('image/webp'))
+  freezeFrame()
+  return dataURItoBlob(canvasElement.toDataURL('image/webp'))
 }
 
 const scanQRCodeHandler = event => {
   hideButtons()
   const context = freezeFrame()
-  const currentImage = context.getImageData(0, 0, canvas.width, canvas.height)
-  qrCode = new jsQR(currentImage.data, currentImage.width, currentImage.height);
+  const currentImage = context.getImageData(0, 0, window.canvas.width, window.canvas.height)
+  // eslint-disable-next-line new-cap
+  const qrCode = new window.jsQR(currentImage.data, currentImage.width, currentImage.height)
   if (qrCode) {
     output.value = qrCode.data || 'No QR detected, try moving closer'
   } else {
@@ -139,17 +137,18 @@ const getLocationHandler = event => {
   if (!('geolocation' in navigator)) {
     return
   }
-  let sawAlert = false
+  let fetchedLocation
 
   locationBtn.style.display = 'none'
 
   navigator.geolocation.getCurrentPosition(position => {
     locationBtn.style.display = 'inline'
-    fetchedLocation = {lat: position.coords.latitude, lng: position.coords.longitude}
+    fetchedLocation = { lat: position.coords.latitude, lng: position.coords.longitude }
     output.value = `At Lat:${fetchedLocation.lat} and Long: ${fetchedLocation.lng}`
   }, err => {
-    fetchedLocation = {lat: 0, lng: 0}
-  }, {timeout: 7000})
+    console.error(err)
+    fetchedLocation = { lat: 0, lng: 0 }
+  }, { timeout: 7000 })
 }
 
 const shareHandler = event => {
@@ -159,10 +158,10 @@ const shareHandler = event => {
   navigator.share({
     title: document.title,
     text: 'Hello from the fancy Snapshot PWA',
-    url: 'https://example.com',
+    url: 'https://example.com'
   })
-  .then(() => console.log('Successfully shared the content'))
-  .catch(err => console.log(`Failed to share because ${err.message}`))
+    .then(() => console.log('Successfully shared the content'))
+    .catch(err => console.log(`Failed to share because ${err.message}`))
 }
 
 const retryHandler = event => {

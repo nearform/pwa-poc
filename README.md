@@ -116,5 +116,5 @@ This shares the link specified to facebook messenger, we can use that as a fallb
 #### 2) FaceBook PWA:
 The FaceBook PWA uses an [`input`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) element to open the native Camera APP after which it uploads the file to FaceBook, but they own the servers so in our case it would be uploading to a 3rd party.
 
-### 3) Twitter PWA
+#### 3) Twitter PWA
 The Twitter PWA works similar to the FaceBook PWA in that it has an [`input`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#capture) element that allows for opening the native camera and taking a picture then sharing it to twitter, again by uploading it to their servers.

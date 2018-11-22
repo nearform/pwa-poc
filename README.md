@@ -1,5 +1,7 @@
 # PWA Advanced features application
 
+## For a video demo see [here](https://drive.google.com/open?id=1pt2OaUP_PgLMwAUGjNN1YY9dLSxtyEdG)
+
 ## Why:
 
 We want to understand what native features in an application can be ported over to a PWA.
@@ -18,6 +20,11 @@ This is a very simple vanillaJS implementation
 The styles are a light version of material-design.
 
 The only requirement for `npm` and npm scripts in our case is for starting up an http server (the `http-server` package in our case)
+
+## Don't forget to:
+ - Check our [Code Of Conduct](CODE_OF_CONDUCT.md)
+ - Have a look at our [license](LICENSE)
+ - Browse our [Contributors Guide](CONTRIBUTING.md)
 
 ### Running locally:
 ```bash
@@ -58,7 +65,7 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
 1) The Web Share API is not currently mature enough.
     - not widely compatible with browsers (Chrome, Safari Tech Preview)
     - does not allow for sharing images (only text content)
-    
+
     `eg:`
     ```javascript
     navigator.share({
@@ -89,7 +96,7 @@ This API has [fairly wide spread adoption](https://caniuse.com/#search=geolocati
    - point it at the QR code
    - tap the scan QR code and if the QR code is detected in the image the input below will be populated with the decoded value
    - otherwise you need to tap the retry button to get back into picture taking mode and try again.
-  
+
 2) Some improvements on this:
    - the video feed continuously checks if a QR code is detected and prints out the decoding if it is(the implementation could be similar to [this](https://github.com/schmich/instascan/blob/master/src/scanner.js))
    - the video feed has a visual cue when a QR code is detected so that you can take the snapshot

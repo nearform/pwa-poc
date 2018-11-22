@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest test/e2e.test.js",
     "start": "npx http-server -c-1"
   },
   "keywords": [],
@@ -20,7 +20,11 @@
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
-    "puppeteer": "^1.10.0",
-    "tap": "^12.1.0"
+    "jest": "^23.6.0",
+    "jest-puppeteer": "^3.5.1",
+    "puppeteer": "^1.10.0"
+  },
+  "jest": {
+    "preset": "jest-puppeteer"
   }
 }

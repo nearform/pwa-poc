@@ -24,13 +24,6 @@ You can test this by running:
 npm test
 ```
 
-In addition, make sure to add tests for any new features.
-You can test the test coverage by running:
-
-```
-npm run ci-cov
-```
-
 ## For Collaborators
 
 Make sure to get a `:thumbsup:`, `+1` or `LGTM` from another collaborator before merging a PR. If you aren't sure if a release should happen, open an issue.

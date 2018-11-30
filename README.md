@@ -1,6 +1,6 @@
 # PWA Advanced features application
 
-## For a video demo see [here](https://drive.google.com/open?id=1pt2OaUP_PgLMwAUGjNN1YY9dLSxtyEdG)
+## For a video demo see [here](https://youtu.be/Tdou1iXT7Xs)
 
 ## Why:
 
